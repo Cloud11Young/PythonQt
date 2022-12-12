@@ -19,9 +19,9 @@ set(PythonQt_QT_VERSION 5)
 set(minimum_required_qt5_version "5.3.0")
 set(minimum_required_qt_version ${minimum_required_qt${PythonQt_QT_VERSION}_version})
 
-find_package(Qt5 ${minimum_required_qt_version} QUIET)
-set(QT_VERSION_MAJOR ${Qt5_VERSION_MAJOR})
-set(QT_VERSION_MINOR ${Qt5_VERSION_MINOR})
+find_package(Qt6 ${minimum_required_qt_version} QUIET)
+set(QT_VERSION_MAJOR ${Qt6_VERSION_MAJOR})
+set(QT_VERSION_MINOR ${Qt6_VERSION_MINOR})
 
 #----------------------------------------------------------------------------
 # Qt components
@@ -85,9 +85,9 @@ endif()
 set(qtlib_to_wraplib_Widgets gui)
 set(qtlib_to_wraplib_WebKitWidgets webkit)
 
-set(qt5_wrapped_lib_depends_gui Multimedia PrintSupport)
-set(qt5_wrapped_lib_depends_multimedia MultimediaWidgets)
-set(qt5_wrapped_lib_depends_quick QuickWidgets)
+set(qt6_wrapped_lib_depends_gui Multimedia PrintSupport)
+set(qt6_wrapped_lib_depends_multimedia MultimediaWidgets)
+set(qt6_wrapped_lib_depends_quick QuickWidgets)
 
 foreach(qtlib ${qtlibs})
   string(TOLOWER ${qtlib} qtlib_lowercase)
@@ -144,20 +144,20 @@ endif()
 list(REMOVE_DUPLICATES qt_required_components)
 
 message(STATUS "${PROJECT_NAME}: Required Qt components [${qt_required_components}]")
-find_package(Qt5 ${minimum_required_qt_version} COMPONENTS ${qt_required_components} REQUIRED)
+find_package(Qt6 ${minimum_required_qt_version} COMPONENTS ${qt_required_components} REQUIRED)
 
 set(QT_LIBRARIES )
 foreach(qtlib ${qt_required_components})
-  include_directories(${Qt5${qtlib}_INCLUDE_DIRS})
-  add_definitions(${Qt5${qtlib}_DEFINITIONS})
-  list(APPEND QT_LIBRARIES ${Qt5${qtlib}_LIBRARIES})
+  include_directories(${Qt6${qtlib}_INCLUDE_DIRS})
+  add_definitions(${Qt6${qtlib}_DEFINITIONS})
+  list(APPEND QT_LIBRARIES ${Qt6${qtlib}_LIBRARIES})
 endforeach()
 
 # Required for use of "QtCore/private/qmetaobjectbuilder_p.h" in "PythonQt.cpp"
-include_directories(${Qt5Core_PRIVATE_INCLUDE_DIRS})
+include_directories(${Qt6Core_PRIVATE_INCLUDE_DIRS})
 
 macro(pythonqt_wrap_cpp)
-  qt5_wrap_cpp(${ARGV})
+  qt6_wrap_cpp(${ARGV})
 endmacro()
 
 if(UNIX)
